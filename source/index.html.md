@@ -1,239 +1,227 @@
 ---
-title: API Reference
-
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+title: League Spectator API
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='#'>Made by Laura(Soundofdarkness)</a>
 
 includes:
   - errors
 
 search: true
 ---
-
 # Introduction
+Welcome to the (inofficial) docs of the league spectator grid.
+This documentation is always subject to change due to the unofficial nature of the descibed api.
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+---
+# Spectator Grids and Platforms
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+The following list includes all spectator grid servers and their Platform ID's
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Spectator URL | Platform ID | Region
+--------------|-------------|----------
+spectator.na.lol.riotgames.com:80 | NA1 | NA
+spectator.euw1.lol.riotgames.com:80 | EUW1 | EUW
+spectator.eu.lol.riotgames.com:8088 | EUN1 | EUNE
+spectator.jp1.lol.riotgames.com:80 |JP1 | JP
+spectator.kr.lol.riotgames.com:80 |KR | KR
+spectator.oc1.lol.riotgames.com:80 |OC1 | OCE
+spectator.br.lol.riotgames.com:80 | BR1 | BR
+spectator.la1.lol.riotgames.com:80 | LA1 | LAN
+spectator.la2.lol.riotgames.com:80 | LA2 | LAS
+spectator.ru.lol.riotgames.com:80 | RU | RU
+spectator.tr.lol.riotgames.com:80 | TR1 | TR
+spectator.pbe1.lol.riotgames.com:8088 | PBE1 | PBE  	
+---
+# Specator Grid
 
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Version Data
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://[spectator-grid_url]/observer-mode/rest/consumer/version"
 ```
+> The above command returns the following data:
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+```markdown
+1.82.102
 ```
+This endpoint retrives the current spectator client version
+### HTTP Request
+`GET /observer-mode/rest/consumer/version`
 
-> The above command returns JSON structured like this:
+## Game Metadata
+
+```shell
+curl "http://[spectator-grid_url]/observer-mode/rest/consumer/getGameMetaData/[platform]/[gameid]/o/token"
+```
+> The above command returns the following data:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "gameKey": {
+        "gameId": 3301948952,
+        "platformId": "EUW1"
+    },
+    "gameServerAddress": "",
+    "port": 0,
+    "encryptionKey": "",
+    "chunkTimeInterval": 30000,
+    "startTime": "Aug 13, 2017 3:54:56 PM",
+    "gameEnded": false,
+    "lastChunkId": 34,
+    "lastKeyFrameId": 13,
+    "endStartupChunkId": 8,
+    "delayTime": 180000,
+    "pendingAvailableChunkInfo": [
+        {
+            "id": 27,
+            "duration": 30000,
+            "receivedTime": "Aug 13, 2017 4:03:56 PM"
+        }
+    ],
+    "pendingAvailableKeyFrameInfo": [
+        {
+            "id": 9,
+            "receivedTime": "Aug 13, 2017 4:03:26 PM",
+            "nextChunkId": 26
+        }
+    ],
+    "keyFrameTimeInterval": 60000,
+    "decodedEncryptionKey": "",
+    "startGameChunkId": 10,
+    "gameLength": 0,
+    "clientAddedLag": 0,
+    "clientBackFetchingEnabled": false,
+    "clientBackFetchingFreq": 1000,
+    "interestScore": 2438,
+    "featuredGame": true,
+    "createTime": "Aug 13, 2017 3:51:07 PM",
+    "endGameChunkId": -1,
+    "endGameKeyFrameId": -1
+}
 ```
 
-This endpoint retrieves all kittens.
+This Endpoint retrives metadata about a currently running game on the spectator grid
 
 ### HTTP Request
-
-`GET http://example.com/api/kittens`
+`GET /observer-mode/rest/consumer/getGameMetaData/[platform]/[gameid]/o/token`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Description
+----------|------------
+[platform] | Platform ID
+gameid    | ID of the game
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="notice">
+	<code>token</code> can be a random token. Same goes for <code>0<code>
 </aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Last Chunk Info
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "http://[spectator-grid_url]/observer-mode/rest/consumer/getLastChunkInfo/[platform]/[gameid]/o/token"
 ```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> The above command returns the following data:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "chunkId": 23,
+    "availableSince": 12346,
+    "nextAvailableChunk": 17668,
+    "keyFrameId": 10,
+    "nextChunkId": 22,
+    "endStartupChunkId": 2,
+    "startGameChunkId": 4,
+    "endGameChunkId": 0,
+    "duration": 30009
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This Endpoint retrives info about the last chunk of game info
 
 ### HTTP Request
+`GET /observer-mode/rest/consumer/getLastChunkInfo/[platform]/[gameid]/o/token`
 
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
+### Query Parameters
 
 Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+----------|------------
+[platform] | Platform ID
+gameid    | ID of the game
 
-## Delete a Specific Kitten
+<aside class="notice">
+	<code>token</code> can be a random token. Same goes for <code>0<code>
+</aside>
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Get Game Data Chunk
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
+curl "http://[spectator-grid_url]/observer-mode/rest/consumer/getGameDataChunk/[platform]/[gameid]/[chunkid]/token"
 ```
+> The above command returns the encrypted Chunk Information
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint retrieves a specific kitten.
+This Endpoint retrives info about the last chunk of game info
 
 ### HTTP Request
+`GET /observer-mode/rest/consumer/getLastChunkInfo/[platform]/[gameid]/[chunkid]/token`
 
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
+### Query Parameters
 
 Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+----------|------------
+[platform] | Platform ID
+gameid    | ID of the game
+chunkid | Chunk ID
+
+<aside class="notice">
+	To use the data of this endpoint , you have to decrypt the returned data using Blowfish ECB and then uncompress it.
+</aside>
+
+
+## Get Key Frame
+
+```shell
+curl "http://[spectator-grid_url]/observer-mode/rest/consumer/getKeyFrame/[platform]/[gameid]/[frameid]/token"
+```
+> The above command returns the encrypted Chunk Information
+
+This Endpoint retrives info about the last chunk of game info
+
+### HTTP Request
+`GET /observer-mode/rest/consumer/getKeyFrame/[platform]/[gameid]/[frameid]/token`
+
+### Query Parameters
+
+Parameter | Description
+----------|------------
+[platform] | Platform ID
+gameid    | ID of the game
+frameid | KeyFrame ID
+
+<aside class="notice">
+	To use the data of this endpoint , you have to decrypt the returned data using Blowfish ECB and then uncompress it.
+</aside>
+## Get End Game Statistics
+
+```shell
+curl "http://[spectator-grid_url]/observer-mode/rest/consumer/end/[platform]/[gameid]/0/token"
+```
+> The above command returns ... something
+
+This Endpoint retrives info about the last chunk of game info
+
+### HTTP Request
+`GET /observer-mode/rest/consumer/end/[platform]/[gameid]/0/token`
+
+### Query Parameters
+
+Parameter | Description
+----------|------------
+[platform] | Platform ID
+gameid    | ID of the game
+
+<aside class="warning">
+	Data for this event is currently missing
+</aside>
 
