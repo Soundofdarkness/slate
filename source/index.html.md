@@ -4,9 +4,6 @@ title: League Spectator API
 toc_footers:
   - <a href='#'>Made by Laura(Soundofdarkness)</a>
 
-includes:
-  - errors
-
 search: true
 ---
 # Introduction
